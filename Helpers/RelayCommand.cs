@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Publisher
+namespace Publisher.Helpers
 {
     public class RelayCommand : ICommand
     {

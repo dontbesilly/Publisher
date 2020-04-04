@@ -8,8 +8,12 @@
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
-        Title="MainWindow" Height="700" Width="450">
-    <DockPanel>
-        <Frame x:Name="FrameBody" NavigationUIVisibility="Hidden"/>
-    </DockPanel>
+        Title="Publisher" Height="500" Width="500">
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <materialDesign:DrawerHost>
+            <DockPanel>
+                <Frame x:Name="FrameBody" NavigationUIVisibility="Hidden"/>
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
 </Window>

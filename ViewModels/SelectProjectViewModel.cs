@@ -1,36 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Publisher.Services;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
-using System.Windows.Input;
+using System.Runtime.CompilerServices;
 
 namespace Publisher.ViewModels
 {
-    public class SelectProjectViewModel
+    public class SelectProjectViewModel : INotifyPropertyChanged
     {
-        private readonly string pathToSln;
+        private readonly VariablesService variablesService;
 
-        public List<PublishProject> PublishProjects { get; set; }
+        public ObservableCollection<PublishProject> PublishProjects { get; set; }
 
-        public SelectProjectViewModel(string pathToSln)
+        public SelectProjectViewModel(VariablesService variablesService)
         {
-            this.pathToSln = pathToSln;
-            PublishProjects = new List<PublishProject>();
-
-            GetAllProjects();
+            this.variablesService = variablesService;
+            PublishProjects = new ObservableCollection<PublishProject>();
         }
 
-        public ICommand NextCommand => new RelayCommand(NextCommandExecuted);
-
-        private void NextCommandExecuted(object obj)
+        public void GetAllProjects()
         {
-            Console.WriteLine();
-        }
-
-        private void GetAllProjects()
-        {
-            foreach (var directory in Directory.GetDirectories(pathToSln))
+            PublishProjects = new ObservableCollection<PublishProject>();
+            foreach (string directory in Directory.GetDirectories(variablesService.PathToProjects))
             {
-                var directoryInfo = new DirectoryInfo(Path.Combine(pathToSln, directory));
+                if (directory.ToLower().Contains("test"))
+                    continue;
+
+                var directoryInfo = new DirectoryInfo(Path.Combine(variablesService.PathToProjects, directory));
                 var files = directoryInfo.GetFiles("*.csproj");
 
                 if (files.Length <= 0) continue;
@@ -44,6 +40,11 @@ namespace Publisher.ViewModels
                 });
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public class PublishProject

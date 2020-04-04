@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Publisher.Views"
+             xmlns:helpers="clr-namespace:Publisher.Helpers"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
     <Grid>
@@ -16,7 +17,8 @@
                   CanUserSortColumns="True" 
                   CanUserAddRows="False" AutoGenerateColumns="False"
                   materialDesign:DataGridAssist.CellPadding="13 7 7 7"
-                  materialDesign:DataGridAssist.ColumnHeaderPadding="7">
+                  materialDesign:DataGridAssist.ColumnHeaderPadding="7"
+                  HeadersVisibility="None">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn
                                 Binding="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -26,15 +28,21 @@
                 <materialDesign:DataGridTextColumn 
                                 Width="360" IsReadOnly="True"
                                 Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                Header="Имя проекта"
                                 EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
                 </materialDesign:DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Margin="10" Grid.Row="1" 
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                HorizontalAlignment="Right" 
-                Command="{Binding NextCommand}"
-                Content="Далее"/>
+        <DockPanel Grid.Row="1">
+            <Button Margin="10" DockPanel.Dock="Left"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Command="{x:Static helpers:NavigationCommands.OpenSelectProjectFolderView}"
+                    Content="Назад"/>
+            <Button Margin="10" DockPanel.Dock="Right"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+
+                    Content="Далее"/>
+        </DockPanel>
     </Grid>
 </UserControl>
