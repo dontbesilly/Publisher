@@ -1,4 +1,5 @@
-﻿using Publisher.Services;
+﻿using Publisher.Models;
+using Publisher.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -20,7 +21,7 @@ namespace Publisher.ViewModels
 
         public void GetAllProjects()
         {
-            PublishProjects = new ObservableCollection<PublishProject>();
+            PublishProjects.Clear();
             foreach (string directory in Directory.GetDirectories(variablesService.PathToProjects))
             {
                 if (directory.ToLower().Contains("test"))
@@ -36,7 +37,7 @@ namespace Publisher.ViewModels
                 {
                     IsSelected = false,
                     Name = fileName.Remove(fileName.Length - 7),
-                    Path = directory
+                    Path = Path.Combine(directory, fileName)
                 });
             }
         }
@@ -45,13 +46,5 @@ namespace Publisher.ViewModels
 
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    public class PublishProject
-    {
-        public bool IsSelected { get; set; }
-        public string Name { get; set; }
-        public string Path { get; set; }
-
     }
 }

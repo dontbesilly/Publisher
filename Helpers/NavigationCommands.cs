@@ -6,5 +6,7 @@ namespace Publisher.Helpers
     {
         public static RoutedCommand OpenSelectProjectView = new RoutedCommand();
         public static RoutedCommand OpenSelectProjectFolderView = new RoutedCommand();
+        public static RoutedCommand OpenSelectPublishFolderView = new RoutedCommand();
+        public static RoutedCommand OpenProgressBarView = new RoutedCommand();
     }
 }
