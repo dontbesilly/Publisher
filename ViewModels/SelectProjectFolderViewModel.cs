@@ -39,6 +39,7 @@ namespace Publisher.ViewModels
             {
                 ProjectDir = dialog.SelectedPath;
                 variablesService.PathToProjects = ProjectDir;
+                variablesService.UpdateSettings();
             }
         }
 

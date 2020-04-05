@@ -1,4 +1,6 @@
-﻿using Publisher.Services;
+﻿using LiteDB;
+using Publisher.Helpers;
+using Publisher.Services;
 using Publisher.ViewModels;
 using Publisher.Views;
 using System;
@@ -30,6 +32,8 @@ namespace Publisher
         public ZipViewModel ZipViewModel { get; set; }
         public ZipView ZipView { get; set; }
 
+        public FinalView FinalView { get; set; }
+
         public MainWindowViewModel()
         {
             InitializeServices();
@@ -37,9 +41,18 @@ namespace Publisher
             InitializeNavigationCommands();
         }
 
+        public void InitMainWindow(MainWindow mainWindow)
+        {
+            MainWindow = mainWindow;
+            MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            MainWindow.Show();
+            MainWindow.FrameBody.NavigationService.Navigate(SelectProjectFolderView);
+        }
+
         private void InitializeServices()
         {
             VariablesService = new VariablesService();
+            VariablesService.LoadSettings();
         }
 
         private void InitializeViews()
@@ -53,8 +66,13 @@ namespace Publisher
             SelectPublishFolderViewModel = new SelectPublishFolderViewModel(VariablesService);
             SelectPublishFolderView = new SelectPublishFolderView { DataContext = SelectPublishFolderViewModel };
 
-            ProgressBarViewModel = new ProgressBarViewModel(VariablesService);
+            ProgressBarViewModel = new ProgressBarViewModel(VariablesService, this);
             ProgressBarView = new ProgressBarView { DataContext = ProgressBarViewModel };
+
+            ZipViewModel = new ZipViewModel(VariablesService);
+            ZipView = new ZipView { DataContext = ZipViewModel };
+
+            FinalView = new FinalView { DataContext = this };
         }
 
         private void InitializeNavigationCommands()
@@ -77,8 +95,15 @@ namespace Publisher
 
         private void OpenSelectPublishFolderViewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            VariablesService.ProjectsToPublish = SelectProjectViewModel.PublishProjects.Where(p => p.IsSelected).ToList();
+            // TODO
+            if (SelectProjectViewModel.PublishProjects.FirstOrDefault(x => x.IsSelected) is null)
+            {
+                MessageBox.Show("Не выбраны проекты!");
+                MainWindow.FrameBody.NavigationService.Navigate(SelectProjectsView);
+                return;
+            }
             MainWindow.FrameBody.NavigationService.Navigate(SelectPublishFolderView);
+            VariablesService.ProjectsToPublish = SelectProjectViewModel.PublishProjects.ToList();
         }
 
         private void OpenSelectProjectFolderViewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -92,12 +117,16 @@ namespace Publisher
             MainWindow.FrameBody.NavigationService.Navigate(SelectProjectsView);
         }
 
-        public void InitMainWindow(MainWindow mainWindow)
+        public void NavigateFinalView()
         {
-            MainWindow = mainWindow;
-            MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            MainWindow.Show();
-            MainWindow.FrameBody.NavigationService.Navigate(SelectProjectFolderView);
+            MainWindow.FrameBody.NavigationService.Navigate(FinalView);
+        }
+
+        public ICommand DoneCommand => new RelayCommand(DoneCommandExecuted);
+
+        private void DoneCommandExecuted(object obj)
+        {
+            Environment.Exit(0);
         }
     }
 }

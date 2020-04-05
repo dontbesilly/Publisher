@@ -38,7 +38,8 @@ namespace Publisher.ViewModels
             if (result == DialogResult.OK)
             {
                 PublishDir = dialog.SelectedPath;
-                variablesService.PathToProjects = PublishDir;
+                variablesService.PathToPublish = PublishDir;
+                variablesService.UpdateSettings();
             }
         }
 

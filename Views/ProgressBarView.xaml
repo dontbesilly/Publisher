@@ -6,6 +6,23 @@
              xmlns:local="clr-namespace:Publisher.Views"
              mc:Ignorable="d">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="20" Style="{DynamicResource MaterialDesignHeadlineTextBlock}" 
+                   Margin="15" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                   Text="Публикации выполняются, подождите"/>
+        <ProgressBar x:Name="Bar" Height="10" Grid.Row="1" Margin="20"
+                     VerticalAlignment="Center"
+                     Minimum="0" Maximum="100" 
+                     Value="{Binding Progress}"/>
+        <TextBlock Grid.Row="1" FontSize="15"
+                   VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20 0"
+                   Text="{Binding ProgressText}"/>
+        <TextBlock Grid.Row="2" FontSize="15"
+                   VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
+                   Text=" "/>
     </Grid>
 </UserControl>

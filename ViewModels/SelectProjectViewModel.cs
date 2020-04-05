@@ -3,6 +3,7 @@ using Publisher.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Publisher.ViewModels
@@ -33,10 +34,11 @@ namespace Publisher.ViewModels
                 if (files.Length <= 0) continue;
 
                 var fileName = files[0].Name;
+                var projectName = fileName.Remove(fileName.Length - 7);
                 PublishProjects.Add(new PublishProject
                 {
-                    IsSelected = false,
-                    Name = fileName.Remove(fileName.Length - 7),
+                    IsSelected = variablesService.ProjectsToPublish?.FirstOrDefault(x => x.Name == projectName)?.IsSelected ?? false,
+                    Name = projectName,
                     Path = Path.Combine(directory, fileName)
                 });
             }

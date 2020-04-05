@@ -6,6 +6,6 @@
              xmlns:local="clr-namespace:Publisher.Views"
              mc:Ignorable="d">
     <Grid>
-            
+            <TextBlock>Soon</TextBlock>
     </Grid>
 </UserControl>
