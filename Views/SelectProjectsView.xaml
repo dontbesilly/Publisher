@@ -18,6 +18,7 @@
                   CanUserAddRows="False" AutoGenerateColumns="False"
                   materialDesign:DataGridAssist.CellPadding="13 7 7 7"
                   materialDesign:DataGridAssist.ColumnHeaderPadding="7"
+                  FontSize="12"
                   HeadersVisibility="None">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn

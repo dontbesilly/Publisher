@@ -4,8 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Publisher.Views"
+             xmlns:helpers="clr-namespace:Publisher.Helpers"
              mc:Ignorable="d">
     <Grid>
-            <TextBlock>Soon</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <CheckBox Margin="0 0 0 10" FontSize="14"
+                      IsChecked="{Binding ZipEachOne}"
+                      Style="{StaticResource MaterialDesignAccentCheckBox}"
+                      Content="Запаковать в архив каждую папку в отдельности"/>
+            <CheckBox Margin="0" FontSize="14"
+                      IsChecked="{Binding ZipAll}"
+                      Style="{StaticResource MaterialDesignAccentCheckBox}"
+                      Content="Запаковать все папки в один архив"/>
+        </StackPanel>
+        <DockPanel Grid.Row="1">
+            <Button Margin="10" DockPanel.Dock="Right"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Command="{Binding NextCommand}"
+                    Content="Далее"/>
+        </DockPanel>
     </Grid>
 </UserControl>

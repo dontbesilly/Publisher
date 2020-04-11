@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" FontSize="20" Style="{DynamicResource MaterialDesignHeadlineTextBlock}" 
                    Margin="15" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                   Text="Публикации выполняются, подождите"/>
+                   Text="{Binding Title}"/>
         <ProgressBar x:Name="Bar" Height="10" Grid.Row="1" Margin="20"
                      VerticalAlignment="Center"
                      Minimum="0" Maximum="100" 

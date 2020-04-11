@@ -66,11 +66,11 @@ namespace Publisher
             SelectPublishFolderViewModel = new SelectPublishFolderViewModel(VariablesService);
             SelectPublishFolderView = new SelectPublishFolderView { DataContext = SelectPublishFolderViewModel };
 
+            ZipViewModel = new ZipViewModel(VariablesService, this);
+            ZipView = new ZipView { DataContext = ZipViewModel };
+
             ProgressBarViewModel = new ProgressBarViewModel(VariablesService, this);
             ProgressBarView = new ProgressBarView { DataContext = ProgressBarViewModel };
-
-            ZipViewModel = new ZipViewModel(VariablesService);
-            ZipView = new ZipView { DataContext = ZipViewModel };
 
             FinalView = new FinalView { DataContext = this };
         }
@@ -95,7 +95,6 @@ namespace Publisher
 
         private void OpenSelectPublishFolderViewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            // TODO
             if (SelectProjectViewModel.PublishProjects.FirstOrDefault(x => x.IsSelected) is null)
             {
                 MessageBox.Show("Не выбраны проекты!");
@@ -115,6 +114,17 @@ namespace Publisher
         {
             SelectProjectViewModel.GetAllProjects();
             MainWindow.FrameBody.NavigationService.Navigate(SelectProjectsView);
+        }
+
+        public void ZipFiles()
+        {
+            MainWindow.FrameBody.NavigationService.Navigate(ProgressBarView);
+            ProgressBarViewModel.ZipProjects();
+        }
+
+        public void NavigateZipView()
+        {
+            MainWindow.FrameBody.NavigationService.Navigate(ZipView);
         }
 
         public void NavigateFinalView()

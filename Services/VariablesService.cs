@@ -15,6 +15,10 @@ namespace Publisher.Services
 
         public string PathToPublish { get; set; }
 
+        public bool ZipEachOne { get; set; }
+
+        public bool ZipAll { get; set; }
+
         public List<PublishProject> ProjectsToPublish { get; set; }
 
         public VariablesService()
@@ -39,6 +43,8 @@ namespace Publisher.Services
                     var settings = collection.FindAll().First();
                     PathToProjects = settings.PathToProjects;
                     PathToPublish = settings.PathToPublish;
+                    ZipEachOne = settings.ZipEachOne;
+                    ZipAll = settings.ZipAll;
                 }
             }
         }
@@ -53,6 +59,8 @@ namespace Publisher.Services
                 {
                     variablesService.PathToProjects = PathToProjects;
                     variablesService.PathToPublish = PathToPublish;
+                    variablesService.ZipEachOne = ZipEachOne;
+                    variablesService.ZipAll = ZipAll;
                     collection.Update(variablesService);
                 }
             }
