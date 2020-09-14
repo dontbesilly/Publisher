@@ -5,18 +5,22 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Publisher.ViewModels
 {
     public class SelectProjectViewModel : INotifyPropertyChanged
     {
         private readonly VariablesService variablesService;
+        private readonly MainWindowViewModel mainWindowViewModel;
 
         public ObservableCollection<PublishProject> PublishProjects { get; set; }
 
-        public SelectProjectViewModel(VariablesService variablesService)
+        public SelectProjectViewModel(VariablesService variablesService, MainWindowViewModel mainWindowViewModel)
         {
             this.variablesService = variablesService;
+            this.mainWindowViewModel = mainWindowViewModel;
             PublishProjects = new ObservableCollection<PublishProject>();
         }
 
@@ -41,6 +45,28 @@ namespace Publisher.ViewModels
                     Name = projectName,
                     Path = Path.Combine(directory, fileName)
                 });
+            }
+        }
+        
+        private string searchField;
+
+        public string SearchField
+        {
+            get => searchField;
+            set
+            {
+                searchField = value;
+
+                var itemsViewOriginal =
+                    (CollectionView) CollectionViewSource.GetDefaultView(mainWindowViewModel.SelectProjectsView.Projects
+                        .ItemsSource);
+                itemsViewOriginal.Filter = o => string.IsNullOrEmpty(searchField) ||
+                                                ((PublishProject) o).Name != null && ((PublishProject) o).Name
+                                                .ToLower()
+                                                .Contains(searchField.ToLower());
+                itemsViewOriginal.Refresh();
+
+                OnPropertyChanged(nameof(SearchField));
             }
         }
 

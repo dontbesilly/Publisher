@@ -60,7 +60,7 @@ namespace Publisher
             SelectProjectFolderViewModel = new SelectProjectFolderViewModel(VariablesService);
             SelectProjectFolderView = new SelectProjectFolderView { DataContext = SelectProjectFolderViewModel };
 
-            SelectProjectViewModel = new SelectProjectViewModel(VariablesService);
+            SelectProjectViewModel = new SelectProjectViewModel(VariablesService, this);
             SelectProjectsView = new SelectProjectsView { DataContext = SelectProjectViewModel };
 
             SelectPublishFolderViewModel = new SelectPublishFolderViewModel(VariablesService);
