@@ -69,8 +69,8 @@ namespace Publisher.ViewModels
         public void PublishProjects()
         {
             Title = "Публикации выполняются, подождите";
-            backgroundWorker.RunWorkerCompleted += BackgroundWorker_PublishCompleted;
             backgroundWorker.DoWork += BackgroundWorker_PublishProjects;
+            backgroundWorker.RunWorkerCompleted += BackgroundWorker_PublishCompleted;
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -82,8 +82,16 @@ namespace Publisher.ViewModels
             backgroundWorker.DoWork -= BackgroundWorker_PublishProjects;
             backgroundWorker.RunWorkerCompleted -= BackgroundWorker_PublishCompleted;
 
-            backgroundWorker.RunWorkerCompleted += BackgroundWorker_ZipCompleted;
             backgroundWorker.DoWork += BackgroundWorker_ZipProjects;
+            backgroundWorker.RunWorkerCompleted += BackgroundWorker_ZipCompleted;
+            backgroundWorker.RunWorkerAsync();
+        }
+        
+        public void CreateMigrationScripts()
+        {
+            Title = "Создаются скрипты миграций, подождите";
+            backgroundWorker.DoWork += BackgroundWorker_CreateMigrationScripts;
+            backgroundWorker.RunWorkerCompleted += BackgroundWorker_ZipCompleted;
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -163,6 +171,48 @@ namespace Publisher.ViewModels
                 backgroundWorker.ReportProgress(progressValue);
             }
         }
+        
+        private void BackgroundWorker_CreateMigrationScripts(object sender, DoWorkEventArgs e)
+        {
+            var projects = variablesService.ProjectsToPublish.Where(p => p.IsSelected).ToList();
+            int progressValue = 0;
+            int projectsCount = projects.Count;
+            if (projectsCount == 0)
+            {
+                MessageBox.Show("Не выбраны проекты.");
+                return;
+            }
+            int diff = 100 / projectsCount;
+            for (var i = 0; i < projectsCount; i++)
+            {
+                var project = projects[i];
+                string outputDir = Path.Combine(variablesService.PathToPublish);
+                if (!Directory.Exists(outputDir))
+                    Directory.CreateDirectory(outputDir);
+
+                backgroundWorker.ReportProgress(0, project.Name);
+                foreach (var typeString in new[] {"DbContextMsSql", "DbContextPostgres"})
+                {
+                    using var process = new Process
+                    {
+                        StartInfo =
+                        {
+                            UseShellExecute = false,
+                            FileName = "dotnet.exe",
+                            Arguments = CreateScriptMigrations(outputDir, project, typeString),
+                            CreateNoWindow = true
+                        }
+                    };
+                    process.Start();
+                    process.WaitForExit();
+                }
+                progressValue += diff;
+                backgroundWorker.ReportProgress(progressValue);
+            }
+        }
+
+        private string CreateScriptMigrations(string outputDir, PublishProject project, string typeString) =>
+            $"ef migrations script -i -o {Path.Combine(outputDir, $"migrations_{project.Name}_{typeString}.sql")} -p {project.Path} -s {project.Path} -c {typeString}";
 
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {

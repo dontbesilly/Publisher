@@ -85,6 +85,8 @@ namespace Publisher
                 new CommandBinding(NavigationCommands.OpenSelectPublishFolderView, OpenSelectPublishFolderViewCommandExecuted));
             CommandManager.RegisterClassCommandBinding(typeof(MainWindow),
                 new CommandBinding(NavigationCommands.OpenProgressBarView, OpenProgressBarViewCommandExecuted));
+            CommandManager.RegisterClassCommandBinding(typeof(MainWindow),
+                new CommandBinding(NavigationCommands.OpenProgressBarMigrationsView, OpenProgressBarMigrationsViewCommandExecuted));
         }
 
         private void OpenProgressBarViewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -114,6 +116,12 @@ namespace Publisher
         {
             SelectProjectViewModel.GetAllProjects();
             MainWindow.FrameBody.NavigationService.Navigate(SelectProjectsView);
+        }
+        
+        private void OpenProgressBarMigrationsViewCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainWindow.FrameBody.NavigationService.Navigate(ProgressBarView);
+            ProgressBarViewModel.CreateMigrationScripts();
         }
 
         public void ZipFiles()
