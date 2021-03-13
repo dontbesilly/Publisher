@@ -1,24 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <UseWindowsForms>true</UseWindowsForms>
-    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
-    <ApplicationIcon>publisher.ico</ApplicationIcon>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <UseWindowsForms>true</UseWindowsForms>
+        <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+        <ApplicationIcon>publisher.ico</ApplicationIcon>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.5" />
-    <PackageReference Include="MaterialDesignColors" Version="1.2.2" />
-    <PackageReference Include="MaterialDesignThemes" Version="3.0.1" />
-  </ItemGroup>
+    <PropertyGroup>
+        <IncludeMaterialDesignFont>True</IncludeMaterialDesignFont>
+        <MaterialDesignFontDirectory>Resources\Roboto\</MaterialDesignFontDirectory>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="LiteDB" Version="5.0.10"/>
+        <PackageReference Include="MaterialDesignColors" Version="2.0.0"/>
+        <PackageReference Include="MaterialDesignThemes" Version="4.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>
