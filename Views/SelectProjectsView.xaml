@@ -21,6 +21,7 @@
                   materialDesign:DataGridAssist.ColumnHeaderPadding="7"
                   FontSize="12"
                   HeadersVisibility="None">
+            
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn
                                 Binding="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 

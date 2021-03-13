@@ -1,15 +1,13 @@
-﻿using LiteDB;
-using Publisher.Helpers;
-using Publisher.Services;
-using Publisher.ViewModels;
-using Publisher.Views;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Publisher.Helpers;
+using Publisher.Services;
+using Publisher.Views;
 using NavigationCommands = Publisher.Helpers.NavigationCommands;
 
-namespace Publisher
+namespace Publisher.ViewModels
 {
     public class MainWindowViewModel
     {
